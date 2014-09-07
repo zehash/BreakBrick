@@ -1,9 +1,12 @@
 package com.unimelb.breakbrick;
 
+import java.util.ListIterator;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 
 public class Ball {
 
@@ -16,11 +19,6 @@ public class Ball {
 	public double dx;
 	public double dy;
 	
-	private float previousTime;
-	
-	private double xSpeed;
-	private double ySpeed;
-	
 	private int screenWidth;
 	private int screenHeight;
 	
@@ -29,27 +27,10 @@ public class Ball {
 		this.bmp = bmp;
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
-		dx = 3;
-		dy = 3;
+		dx = 6;
+		dy = 6;
 		setX(screenWidth/2);
 		setY(2 * screenHeight/3);
-		setXSpeed(400.0 * Math.sin(Math.PI * Math.random() * 0.25));
-		setYSpeed(400.0 * Math.cos(Math.PI * Math.random() * 0.25));
-		
-		updatePosition(x, y);	
-	}
-
-	private void updatePosition(double x2, double y2) {
-			this.x = x2 + dx;
-			this.y = y2 + dy;
-	}
-
-	private void setYSpeed(double i) {
-		this.ySpeed = i;
-	}
-
-	private void setXSpeed(double i) {
-		this.xSpeed = i;	
 	}
 
 	private void setX(int i) {
@@ -64,11 +45,10 @@ public class Ball {
 		Paint paint = new Paint();
 		paint.setAntiAlias(true);
 		paint.setColor(Color.BLACK);
-		updatePhysics();
+		updatePhysics(canvas);
 		
 		if(worldView.onScreen) {
 			moveBall();
-			updatePosition(x, y);
 			canvas.drawCircle((float)x, (float)y, ballRadius, paint);
 		}
 	}
@@ -78,17 +58,69 @@ public class Ball {
 		y = y + dy;
 	}
 
-	private void updatePhysics() {
+	private void detectBlockCollision(Canvas canvas) {
+		double ballX = x + ballRadius;
+		double ballY = y - ballRadius;
+		if (ballY > WorldView.blocksList.get(WorldView.blocksList.size() - 1).getBounds().bottom) {
+			return;
+		}
+		
+		for (int i = 0; i < WorldView.blocksList.size(); i++) {
+			Block curr = WorldView.blocksList.get(i);
+			Rect temp = curr.getBounds();
+			if (ballX >= temp.left && ballX <= temp.right && ballY <= temp.bottom) {
+		    	curr.setPaintColor();
+		    	curr.drawBlock(canvas);
+		    	WorldView.blocksList.remove(curr);
+		    	dy = 6;
+		    	break;
+		    } else {
+		    	continue;
+		    }
+		}
+		/*ListIterator<Block> list = WorldView.blocksList.listIterator(WorldView.blocksList.size() - 1);
+		System.out.println("list.size() is"+ list.)
+		while (list.hasPrevious()) {
+		    Block prev = list.previous();
+		    Rect temp = prev.getBounds();
+		    if (ballX >= temp.left && ballX <= temp.right && ballY <= temp.bottom) {
+		    	prev.setPaintColor();
+		    	prev.drawBlock(canvas);
+		    	WorldView.blocksList.remove(prev);
+		    	dy = 6;
+		    	break;
+		    } else {
+		    	continue;
+		    }
+		}*/
+	
+	}
+	
+	private void detectPaddleCollision() {
+		double ballX = x + ballRadius;
+		double ballY = y + ballRadius;
+		double paddleXl = Paddle.getX() - (Paddle.width /2);
+		double paddleYl = Paddle.getY() - (Paddle.height / 2);
+		double paddleXr = Paddle.getX() + (Paddle.width / 2);
+		double paddleYr = Paddle.getY() + (Paddle.height / 2);
+		
+		if (ballX > paddleXl && ballX < paddleXr && ballY > paddleYl && ballY < paddleYr ) {
+			dy = -6;
+		}
+	}
+	private void updatePhysics(Canvas canvas) {
+		detectBlockCollision(canvas);
+		detectPaddleCollision();
 		if (x + ballRadius >= screenWidth) {
-			dx = -3;
+			dx = -6;
 		} else if (x - ballRadius <= 0) {
-			dx = 3;
+			dx = 6;
 		}
 		
 		if (y + ballRadius >= screenHeight) {
-			dy = -3;
+			dy = -6;
 		} else if (y - ballRadius <= 0) {
-			dy = 3;
+			dy = 6;
 		}
 	}
 

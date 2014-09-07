@@ -46,6 +46,10 @@ public class Block extends ShapeDrawable {
 		canvas.drawRect(this.getBounds(), paint);
 	}
 
+	public void setPaintColor() {
+		blockColor = Color.WHITE;
+		paint.setColor(blockColor);
+	}
 	public int getColor() {
 		return paint.getColor();
 	}

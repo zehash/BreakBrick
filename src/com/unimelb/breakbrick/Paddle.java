@@ -6,12 +6,16 @@ import android.graphics.Rect;
 
 public class Paddle {
 
-	private double centerX;
-    private double centerY;
+	private static double centerX;
+    private static double centerY;
     private Rect rect;
     private Paint paint;
+    public static int width;
+    public static int height;
     
     public Paddle(int posX, int posY, int width, int height) {
+    	Paddle.width = width;
+    	Paddle.height = height;
         rect = new Rect(posX, posY, posX + width, posY + height);
         paint = new Paint();
         paint.setColor(Color.BLUE);
@@ -19,11 +23,11 @@ public class Paddle {
         centerY = getRect().centerY();
     }
     
-    public double getX() {
+    public static double getX() {
         return centerX;
     }
 
-    public double getY() {
+    public static double getY() {
         return centerY;
     }
 

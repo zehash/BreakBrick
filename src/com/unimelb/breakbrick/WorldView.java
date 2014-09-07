@@ -24,12 +24,14 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 	public static ArrayList<Block> blocksList;
 	// Touch event position for the paddle
 	private double lastKnownPaddlePosition;
+	private boolean flag = true;
 
 	public WorldView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		getHolder().addCallback(this);
 		setFocusable(true);
 		setOnTouchListener(this);
+		
 	}
 
 	@Override
@@ -73,9 +75,9 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 		width = getWidth();
 		height = getHeight();
 		double paddleWidth = getWidth() / 2;
-		double paddleHeight = getHeight() / 10;
+		double paddleHeight = getHeight() / 25;
 		double paddleX = (width - paddleWidth) / 2;
-		double paddleY = height - paddleHeight / 4;
+		double paddleY = 7 * height / 8;
 		paddle = new Paddle((int) paddleX, (int) paddleY, (int) paddleWidth,
 				(int) paddleHeight);
 		// TODO: Thread should not meddle with properties of the view.
@@ -115,10 +117,12 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 			Block block = new Block(canvas, i, j);
 			}
 		}
+		flag = false;
 	}
 
 	private void drawBlocks(Canvas canvas) {
-		initBlocks(canvas);
+		if (flag)
+			initBlocks(canvas);
 		for (int i = 0; i < blocksList.size(); i++) {
 			blocksList.get(i).drawBlock(canvas);
 
