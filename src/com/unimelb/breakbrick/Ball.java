@@ -1,7 +1,5 @@
 package com.unimelb.breakbrick;
 
-import java.util.ListIterator;
-
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -59,24 +57,64 @@ public class Ball {
 	}
 
 	private void detectBlockCollision(Canvas canvas) {
-		double ballX = x + ballRadius;
-		double ballY = y - ballRadius;
-		if (ballY > WorldView.blocksList.get(WorldView.blocksList.size() - 1).getBounds().bottom) {
+		double ballX1 = x + ballRadius;
+		double ballX2 = x - ballRadius;
+		double ballY1 = y - ballRadius;
+		double ballY2 = y + ballRadius;
+		if (ballY1 > WorldView.blocksList.get(WorldView.blocksList.size() - 1).getBounds().bottom) {
 			return;
 		}
 		
 		for (int i = 0; i < WorldView.blocksList.size(); i++) {
 			Block curr = WorldView.blocksList.get(i);
 			Rect temp = curr.getBounds();
-			if (ballX >= temp.left && ballX <= temp.right && ballY <= temp.bottom) {
+			
+			if ((ballX1 >= temp.left && ballX2 < temp.left) || (ballX2 <= temp.right && ballX1 > temp.right)) { // Entering from left
+				if(ballY1 > temp.top && ballY2 < temp.bottom) {
+					//hit on left/right side
+					dx = dx * -1;
+					redrawBlock(canvas, curr);
+				}
+				else if(ballY2 >= temp.top && ballY1 < temp.top) {
+					//hit near top edge
+					dx = dx * -1;
+					redrawBlock(canvas, curr);
+				} 
+				else if(ballY1 <= temp.bottom && ballY2 > temp.bottom) {
+					// hit near bottom edge
+					dx = dx * -1;
+					redrawBlock(canvas, curr);
+				}
+			}
+			if (((ballY1 <= temp.bottom && ballY2 > temp.bottom) || (ballY2 >= temp.top && ballY2 < temp.top))) { //entering from bottom
+				if(ballX1 < temp.right && ballX2 > temp.left) {
+					//hit on bottom/top side
+					dy = dy * -1;
+					redrawBlock(canvas, curr);
+				}
+				else if (ballX1 >= temp.left && ballX2 < temp.left) {
+					//hit near left edge
+					dy = dy * -1;
+					redrawBlock(canvas, curr);
+				}
+				else if (ballX2 <= temp.right && ballX1 > temp.right) {
+					//hit near right edge
+					dy = dy * -1;
+					redrawBlock(canvas, curr);
+				}
+			}
+			
+			//if (ballX1 >= temp.left && ballX1 <= temp.right && ballY1 <= temp.bottom) {
+			/*if(flag == true) {
 		    	curr.setPaintColor();
 		    	curr.drawBlock(canvas);
 		    	WorldView.blocksList.remove(curr);
-		    	dy = 6;
+		    	//dy = dy * -1;
+		    	flag = false;
 		    	break;
 		    } else {
 		    	continue;
-		    }
+		    }*/
 		}
 		/*ListIterator<Block> list = WorldView.blocksList.listIterator(WorldView.blocksList.size() - 1);
 		System.out.println("list.size() is"+ list.)
@@ -96,6 +134,12 @@ public class Ball {
 	
 	}
 	
+	private void redrawBlock(Canvas canvas, Block curr) {
+		curr.setPaintColor();
+    	curr.drawBlock(canvas);
+    	WorldView.blocksList.remove(curr);
+	}
+	
 	private void detectPaddleCollision() {
 		double ballX = x + ballRadius;
 		double ballY = y + ballRadius;
@@ -105,22 +149,22 @@ public class Ball {
 		double paddleYr = Paddle.getY() + (Paddle.height / 2);
 		
 		if (ballX > paddleXl && ballX < paddleXr && ballY > paddleYl && ballY < paddleYr ) {
-			dy = -6;
+			dy = dy * -1;
 		}
 	}
 	private void updatePhysics(Canvas canvas) {
 		detectBlockCollision(canvas);
 		detectPaddleCollision();
 		if (x + ballRadius >= screenWidth) {
-			dx = -6;
+			dx = dx * -1;
 		} else if (x - ballRadius <= 0) {
-			dx = 6;
+			dx = dx * -1;
 		}
 		
 		if (y + ballRadius >= screenHeight) {
-			dy = -6;
+			dy = dy * -1;
 		} else if (y - ballRadius <= 0) {
-			dy = 6;
+			dy = dy * -1;
 		}
 	}
 
