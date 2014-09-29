@@ -21,7 +21,7 @@ public class Block extends ShapeDrawable {
 	public Block(Canvas canvas, int i, int j) {
 		super(new RectShape());
 		paint = new Paint();
-		blockColor = Color.CYAN;
+		blockColor = setBlockColor(i);
 		paint.setColor(blockColor);
 		this.canvas  = canvas;
 		blockHeight = canvas.getWidth() / 10;
@@ -31,6 +31,22 @@ public class Block extends ShapeDrawable {
 		initBlock(canvas, i, j);
 	}
 
+	private int setBlockColor(int i){
+		int colorblock = 0;
+		if(i == 0){
+			colorblock = Color.CYAN;
+		} else if(i == 1){
+			colorblock = Color.GREEN;
+		} else if(i == 2){
+			colorblock = Color.RED;
+		} else if(i == 3){
+			colorblock = Color.YELLOW;
+		} else if(i == 4){
+			colorblock = Color.MAGENTA;
+		}
+		return colorblock;
+	}
+	
 	private void initBlock(Canvas canvas, int i, int j) {
 		int y_coordinate = (i * (blockHeight + spacing)) + topOffset;
 		int x_coordinate = j * (blockWidth + spacing);

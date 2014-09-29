@@ -2,6 +2,11 @@ package com.unimelb.breakbrick;
 
 import java.util.ArrayList;
 
+import org.lightcouch.CouchDbClientAndroid;
+import org.lightcouch.CouchDbProperties;
+
+import com.google.gson.JsonObject;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -25,12 +30,27 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 	// Touch event position for the paddle
 	private double lastKnownPaddlePosition;
 	private boolean flag = true;
-
+	int col;
+		
+	
 	public WorldView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		getHolder().addCallback(this);
 		setFocusable(true);
 		setOnTouchListener(this);
+		
+		CouchDbProperties properties = new CouchDbProperties()
+		  .setDbName("brickbreak")
+		  .setCreateDbIfNotExist(true)
+		  .setProtocol("http")
+		  .setHost("115.146.92.221")
+		  .setPort(5984)
+		  .setMaxConnections(100)
+		  .setConnectionTimeout(0);
+
+		CouchDbClientAndroid dbClient3 = new CouchDbClientAndroid(properties);
+		JsonObject json = dbClient3.find(JsonObject.class, "gamelevel");
+		col = json.getAsJsonObject().get("coloumn").getAsInt();
 		
 	}
 
@@ -112,9 +132,14 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 
 	private void initBlocks(Canvas canvas) {
 		blocksList = new ArrayList<Block>();
+		int k = 0;
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 5; j++) {
-			Block block = new Block(canvas, i, j);
+				k++;
+				if(k == col){
+					Block block = new Block(canvas, i, j);
+					k = 0;
+				}
 			}
 		}
 		flag = false;

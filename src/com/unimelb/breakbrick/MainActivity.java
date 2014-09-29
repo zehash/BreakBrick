@@ -1,24 +1,55 @@
 package com.unimelb.breakbrick;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.lightcouch.CouchDbClientAndroid;
+import org.lightcouch.CouchDbProperties;
+
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.Menu;
 import android.view.Window;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+
 public class MainActivity extends Activity {
 	private WorldView worldView;
-	
+		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		StrictMode.setThreadPolicy(policy);
+
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
+		
+//		CouchDbProperties properties = new CouchDbProperties()
+//		  .setDbName("brickbreak")
+//		  .setCreateDbIfNotExist(true)
+//		  .setProtocol("http")
+//		  .setHost("115.146.92.221")
+//		  .setPort(5984)
+//		  .setMaxConnections(100)
+//		  .setConnectionTimeout(0);
+//
+//		CouchDbClientAndroid dbClient3 = new CouchDbClientAndroid(properties);
+//		JsonObject json = new JsonObject();
+//		json.addProperty("_id", "gamelevel");
+//		json.addProperty("row", "1");
+//		json.addProperty("coloumn", "2");
+//		dbClient3.save(json); 
+
 		
 	//	worldView = (WorldView) findViewById(R.id.worldview);
 	}
