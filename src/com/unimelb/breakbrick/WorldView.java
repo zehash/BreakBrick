@@ -6,17 +6,18 @@ import java.util.Random;
 import org.lightcouch.CouchDbClientAndroid;
 import org.lightcouch.CouchDbProperties;
 
-import com.google.gson.JsonObject;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnTouchListener;
+
+import com.google.gson.JsonObject;
 
 public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 		Runnable, OnTouchListener {
@@ -70,6 +71,13 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 						doDraw(canvas);
 					}
 					ball.onMake(canvas);
+					Paint paint = new Paint();
+					paint.setAntiAlias(true);
+					paint.setColor(Color.BLACK);
+					paint.setFakeBoldText(true);
+					paint.setTextSize(50);
+					canvas.drawText("Score : " + score, 0, height / 25, paint);
+					canvas.drawText("Life : " + lifeRemaining, 2 * width / 3, height / 25, paint);
 				}
 			} finally {
 				if (canvas != null) {

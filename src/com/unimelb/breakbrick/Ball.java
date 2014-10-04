@@ -144,7 +144,7 @@ public class Ball {
 			paint.setColor(Color.BLUE);
 			paint.setFakeBoldText(true);
 			paint.setTextSize(50);
-			WorldView.lifeRemaining++;
+			WorldView.lifeRemaining += 1;
 			canvas.drawText("+1", screenWidth / 3, 3 * screenHeight / 5, paint);
 		}
 		WorldView.score += WorldView.lifeRemaining * 10;
