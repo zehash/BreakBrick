@@ -74,6 +74,7 @@ public class MainActivity extends Activity {
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                         finish();
+                        System.exit(0);
                     }
                 }).setNegativeButton("no", null).show();
     } 

@@ -1,5 +1,8 @@
 package com.unimelb.breakbrick;
 
+import java.util.Date;
+
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -135,6 +138,16 @@ public class Ball {
 	}
 	
 	private void redrawBlock(Canvas canvas, Block curr) {
+		if(curr.isSpecial) {
+			Paint paint = new Paint();
+			paint.setAntiAlias(true);
+			paint.setColor(Color.BLUE);
+			paint.setFakeBoldText(true);
+			paint.setTextSize(50);
+			WorldView.lifeRemaining++;
+			canvas.drawText("+1", screenWidth / 3, 3 * screenHeight / 5, paint);
+		}
+		WorldView.score += WorldView.lifeRemaining * 10;
 		curr.setPaintColor();
     	curr.drawBlock(canvas);
     	WorldView.blocksList.remove(curr);
@@ -161,11 +174,29 @@ public class Ball {
 			dx = dx * -1;
 		}
 		
-		if (y + ballRadius >= screenHeight) {
+		if (y - ballRadius <= 0) {
 			dy = dy * -1;
-		} else if (y - ballRadius <= 0) {
-			dy = dy * -1;
-		}
+		} else if (y - ballRadius >= screenHeight) {
+			//dy = dy * -1;
+			if(WorldView.lifeRemaining > 0) {
+				 Date start = new Date();
+				    Date end = new Date();
+				    while(end.getTime() - start.getTime() <  2000){
+				        end = new Date();
+				    }
+				WorldView.lifeRemaining--;
+				setX(screenWidth/2);
+				setY(2 * screenHeight/3);
+			} else {
+				Paint paint = new Paint();
+				paint.setAntiAlias(true);
+				paint.setColor(Color.BLACK);
+				paint.setFakeBoldText(true);
+				paint.setTextSize(80);
+				canvas.drawText("Game Over", screenWidth / 3, 3 * screenHeight / 5, paint);
+				canvas.drawText("Score : "+ WorldView.score, screenWidth / 3, 4 * screenHeight / 5, paint);
+			}
+		} 
 	}
 
 }

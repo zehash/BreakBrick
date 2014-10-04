@@ -1,6 +1,7 @@
 package com.unimelb.breakbrick;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.lightcouch.CouchDbClientAndroid;
 import org.lightcouch.CouchDbProperties;
@@ -31,6 +32,8 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 	private double lastKnownPaddlePosition;
 	private boolean flag = true;
 	int col;
+	public static int lifeRemaining;
+	public static int score;
 		
 	
 	public WorldView(Context context, AttributeSet attrs) {
@@ -53,7 +56,7 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 		col = json.getAsJsonObject().get("coloumn").getAsInt();
 		
 	}
-
+	
 	@Override
 	public void run() {
 		while (running) {
@@ -100,6 +103,8 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 		double paddleY = 7 * height / 8;
 		paddle = new Paddle((int) paddleX, (int) paddleY, (int) paddleWidth,
 				(int) paddleHeight);
+		lifeRemaining = 3;
+		score = 0;
 		// TODO: Thread should not meddle with properties of the view.
 		// Refactor...
 		lastKnownPaddlePosition = paddle.getX();
@@ -131,15 +136,24 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 	}
 
 	private void initBlocks(Canvas canvas) {
+		Random randomNumber = new Random();
+		boolean special = false;
+		int temp = randomNumber.nextInt(25);
 		blocksList = new ArrayList<Block>();
-		int k = 0;
+		int k = 0, s = 0;
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 5; j++) {
 				k++;
 				if(k == col){
-					Block block = new Block(canvas, i, j);
+					if(s == temp) {
+						special = true;
+					} else {
+						special = false;
+					}
+					Block block = new Block(canvas, i, j, special);
 					k = 0;
 				}
+				s++;
 			}
 		}
 		flag = false;
