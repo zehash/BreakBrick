@@ -1,18 +1,24 @@
 package com.unimelb.breakbrick;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.lightcouch.CouchDbClientAndroid;
 import org.lightcouch.CouchDbProperties;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.AttributeSet;
+import android.util.Xml;
 import android.view.Menu;
 import android.view.Window;
 
@@ -34,6 +40,36 @@ public class MainActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
 		
+//		 AttributeSet attributes = null;
+// 		 Resources r = getResources();
+//		 XmlPullParser parser =  r.getXml(R.layout.activity_main);
+//		 attributes = Xml.asAttributeSet(parser);
+		
+//		AttributeSet attributes = null;
+//		Resources r = getResources();
+//	   	XmlPullParser parser = r.getXml(R.layout.activity_main);
+//		
+//	    int state = 0;
+//	    do {
+//	        try {
+//	            state = parser.next();
+//	        } catch (XmlPullParserException e1) {
+//	            e1.printStackTrace();
+//	        } catch (IOException e1) {
+//	            e1.printStackTrace();
+//	        }       
+//	        if (state == XmlPullParser.START_TAG) {
+//	            if (parser.getName().equals("TextView")) {
+//	            	attributes = Xml.asAttributeSet(parser);
+//	                break;
+//	            }
+//	        }
+//	    } while(state != XmlPullParser.END_DOCUMENT);
+//		
+//		worldView= new WorldView(this, attributes);
+//        setContentView(worldView);
+//		
+		
 //		CouchDbProperties properties = new CouchDbProperties()
 //		  .setDbName("brickbreak")
 //		  .setCreateDbIfNotExist(true)
@@ -51,8 +87,20 @@ public class MainActivity extends Activity {
 //		dbClient3.save(json); 
 
 		
-	//	worldView = (WorldView) findViewById(R.id.worldview);
+//	     worldView = (WorldView) findViewById(R.id.worldview);
+//		 setContentView(worldView);
 	}
+	
+//		protected void onResume() {
+//	    super.onResume();
+//	    worldView.resume();
+//	  }
+//
+//	   @Override
+//	   protected void onPause() {
+//	        super.onPause();
+//	       worldView.pause();
+//	   }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -61,6 +109,8 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
+		
+	
 	@Override
     public void onBackPressed() {
         new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle("Exit")
@@ -74,6 +124,7 @@ public class MainActivity extends Activity {
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                         finish();
+                        System.exit(0);
                     }
                 }).setNegativeButton("no", null).show();
     } 

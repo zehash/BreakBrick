@@ -1,5 +1,7 @@
 package com.unimelb.breakbrick;
 
+import java.util.Random;
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -16,9 +18,10 @@ public class Block extends ShapeDrawable {
 	private int spacing;
 	private int topOffset;
 	private int blockWidth;
+	public boolean isSpecial = false;
 	
 	
-	public Block(Canvas canvas, int i, int j) {
+	public Block(Canvas canvas, int i, int j, boolean special) {
 		super(new RectShape());
 		paint = new Paint();
 		blockColor = setBlockColor(i);
@@ -28,6 +31,7 @@ public class Block extends ShapeDrawable {
 		spacing = canvas.getWidth() / 88;
 		topOffset = canvas.getHeight() / 10;
 		blockWidth = (canvas.getWidth() / 5) - spacing;
+		isSpecial = special;
 		initBlock(canvas, i, j);
 	}
 
@@ -54,8 +58,10 @@ public class Block extends ShapeDrawable {
 		Rect r = new Rect();
 		r.set(x_coordinate, y_coordinate, x_coordinate + blockWidth,
 				y_coordinate + blockHeight);
-		this.setBounds(r);
+		this.setBounds(r);	
 		WorldView.blocksList.add(this);
+		
+		
 	}
 
 	public void drawBlock(Canvas canvas) {
