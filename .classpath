@@ -5,7 +5,12 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="lib" path="C:/Users/Hashim/Downloads/Jars/httpcore-4.3.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Hashim/Downloads/Jars/httpmime-4.3.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Zhanibek/Documents/GitRep/libs/httpcore-4.3.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Zhanibek/Documents/GitRep/libs/android-support-v4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Zhanibek/Documents/GitRep/libs/gson-2.2.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Zhanibek/Documents/GitRep/libs/gson-2.2.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Zhanibek/Documents/GitRep/libs/gson-2.2.4-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Zhanibek/Documents/GitRep/libs/httpclient-cache-4.3.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Zhanibek/Documents/GitRep/libs/lightcouch-0.1.3.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
