@@ -23,7 +23,8 @@ import android.view.View.OnTouchListener;
 
 import com.google.gson.JsonObject;
 
-public class WorldView extends SurfaceView implements SurfaceHolder.Callback,Runnable, OnTouchListener {
+public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
+		Runnable, OnTouchListener {
 	private SurfaceHolder surfaceHolder;
 	private boolean running = false;
 	public Ball ball;
@@ -56,7 +57,7 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,Run
 //		super(context, attrs);
 //		getHolder().addCallback(this);
 //		setFocusable(true);
-//		setOnTouchListener(this);
+//		setOnTouchListener(this);r
 	
 	public WorldView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -78,13 +79,11 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,Run
 		col = json.getAsJsonObject().get("coloumn").getAsInt();
 		
 	}
-	
 //	public void resume() {
 //        running=true;
 //        renderThread=new Thread(this);
 //        renderThread.start();  
 //    }
-	
 	@Override
 	public void run() {
 		while (running) {
