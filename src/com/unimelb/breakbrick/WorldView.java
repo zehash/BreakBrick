@@ -36,6 +36,7 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 	public static int lifeRemaining = 3;
 	public static int score = 0;
 	public static int mode;
+	public static String state = "RUNNING";
 		
 	
 	public WorldView(Context context, AttributeSet attrs) {
@@ -61,6 +62,7 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 	@Override
 	public void run() {
 		while (running) {
+			if(state == "RUNNING") {
 			Canvas canvas = null;
 			try {
 				canvas = surfaceHolder.lockCanvas(null);
@@ -88,6 +90,7 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 				Thread.sleep(10);
 			} catch (Exception e) {
 			}
+			}
 		}
 
 	}
@@ -100,6 +103,7 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 
 	@Override
 	public void surfaceCreated(SurfaceHolder surfaceHolder) {
+		
 		double paddleWidth = 0, paddleHeight = 0;
 		this.surfaceHolder = surfaceHolder;
 		this.running = true;

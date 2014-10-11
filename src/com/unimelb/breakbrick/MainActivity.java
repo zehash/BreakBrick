@@ -1,28 +1,23 @@
 package com.unimelb.breakbrick;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.lightcouch.CouchDbClientAndroid;
-import org.lightcouch.CouchDbProperties;
-
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.Menu;
 import android.view.Window;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
 	private WorldView worldView;
-		
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -78,4 +73,16 @@ public class MainActivity extends Activity {
                     }
                 }).setNegativeButton("no", null).show();
     } 
+	
+	public void onPause() {
+		super.onPause();
+		WorldView.state = "PAUSED";
+	}
+	
+	public void onResume() {
+		super.onResume();
+		WorldView.state = "RUNNING";
+		Thread t = new Thread(worldView);
+		t.start();
+	}
 }
