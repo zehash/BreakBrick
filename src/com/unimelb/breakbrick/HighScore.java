@@ -15,14 +15,35 @@ import android.widget.TextView;
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.highscore);
 	 
-	//        TextView txtName = (TextView) findViewById(R.id.txtName);
+	        
 	        Button btnClose = (Button) findViewById(R.id.btnClose);
 	 
-//	        Intent i = getIntent();
+	        
+    //	    Intent i = getIntent();
 
-	 //       String name = i.getStringExtra("name");
-	  	 
-	//        txtName.setText(name);
+    	    TextView txtName1 = (TextView) findViewById(R.id.tV5);
+	        String name1 = "Egemen";
+	  	    txtName1.setText(name1);
+	  	    
+	  	    TextView txtScore1 = (TextView) findViewById(R.id.tV6);
+	        String score1 = "1000";
+	        txtScore1.setText(score1);
+	        
+	        TextView txtName2 = (TextView) findViewById(R.id.tV8);
+	        String name2 = "Lars";
+	  	    txtName2.setText(name2);
+	  	    
+	  	    TextView txtScore2 = (TextView) findViewById(R.id.tV9);
+	        String score2 = "999";
+	        txtScore2.setText(score2);
+	        
+	        TextView txtName3 = (TextView) findViewById(R.id.tV11);
+	        String name3 = "Antony";
+	  	    txtName3.setText(name3);
+	  	    
+	  	    TextView txtScore3 = (TextView) findViewById(R.id.tV12);
+	        String score3 = "888";
+	        txtScore3.setText(score3);
 	 
        btnClose.setOnClickListener(new View.OnClickListener() {
 	 

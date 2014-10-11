@@ -88,8 +88,8 @@ public class StartPage extends Activity{
         	
         });
         	
-       
-    	Button highScore = (Button) findViewById(R.id.button3);
+    
+        Button highScore = (Button) findViewById(R.id.button3);
         highScore.setOnClickListener(new View.OnClickListener() {
         	 public void onClick(View view) {
                  Intent myIntent = new Intent(getApplicationContext(), HighScore.class);
@@ -97,6 +97,7 @@ public class StartPage extends Activity{
                  finish();
                 }
         });
+        
         
         Button loadLevel = (Button) findViewById(R.id.button4);
         loadLevel.setOnClickListener(new OnClickListener() {
@@ -109,64 +110,6 @@ public class StartPage extends Activity{
 			}
         	
         });
-        
-        
-        Button resumeGame = (Button) findViewById(R.id.button2);
-        resumeGame.setOnClickListener(new OnClickListener() {
- 
-			@Override
-			public void onClick(View arg0) {
- 
-				// get prompts.xml view
-				LayoutInflater li = LayoutInflater.from(context);
-				View promptsView = li.inflate(R.layout.prompts, null);
- 
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-						context);
- 
-				// set prompts.xml to alertdialog builder
-				alertDialogBuilder.setView(promptsView);
- 
-				final EditText userInput = (EditText) promptsView
-						.findViewById(R.id.editTextDialogUserInput);
- 
-				// set dialog message
-				alertDialogBuilder
-					.setCancelable(false)
-					.setPositiveButton("OK",
-					  new DialogInterface.OnClickListener() {
-					    public void onClick(DialogInterface dialog,int id) {
-						// get user input and set it to result
-						// edit text
-						result.setText(userInput.getText());
-					    }
-					  })
-					.setNegativeButton("Cancel",
-					  new DialogInterface.OnClickListener() {
-					    public void onClick(DialogInterface dialog,int id) {
-						dialog.cancel();
-					    }
-					  });
- 
-				// create alert dialog
-				AlertDialog alertDialog = alertDialogBuilder.create();
- 
-				// show it
-				alertDialog.show();
- 
-			}
-		});
-        
-        
-        Button highScore = (Button) findViewById(R.id.button3);
-        highScore.setOnClickListener(new View.OnClickListener() {
-        	 public void onClick(View view) {
-                 Intent myIntent = new Intent(getApplicationContext(), HighScore.class);
-                 startActivity(myIntent);
-                 finish();
-                }
-        });
-        
       
         Button exit = (Button) findViewById(R.id.button5);
         exit.setOnClickListener(new View.OnClickListener() {
