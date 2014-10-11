@@ -1,9 +1,5 @@
 package com.unimelb.breakbrick;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -28,7 +24,7 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 	private SurfaceHolder surfaceHolder;
 	private boolean running = false;
 	public Ball ball;
-	private Paddle paddle;
+	public Paddle paddle;
 	private int width;
 	private int height;
 	public boolean onScreen = true;
@@ -37,27 +33,10 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 	private double lastKnownPaddlePosition;
 	private boolean flag = true;
 	int col;
-	public static int lifeRemaining;
-	public static int score;
-
-	Thread renderThread=null;
-	private ObjectOutputStream oos;
-	private final String FILE_PATH = "data/data/com.unimelb.breakbrick/data.dat";
-	
-//	public WorldView(Context context) {
-//        super(context);
-//      //  surfaceHolder=getHolder();         //<<-check the this statement
-//        getHolder().addCallback(this);
-//        setFocusable(true);
-//        setOnTouchListener(this);
-//    }
-	
-	
-//	    public WorldView(Context context, AttributeSet attrs) {
-//		super(context, attrs);
-//		getHolder().addCallback(this);
-//		setFocusable(true);
-//		setOnTouchListener(this);r
+	public static int lifeRemaining = 3;
+	public static int score = 0;
+	public static int mode;
+		
 	
 	public WorldView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -77,13 +56,8 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 		CouchDbClientAndroid dbClient3 = new CouchDbClientAndroid(properties);
 		JsonObject json = dbClient3.find(JsonObject.class, "gamelevel");
 		col = json.getAsJsonObject().get("coloumn").getAsInt();
-		
 	}
-//	public void resume() {
-//        running=true;
-//        renderThread=new Thread(this);
-//        renderThread.start();  
-//    }
+	
 	@Override
 	public void run() {
 		while (running) {
@@ -110,51 +84,14 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 					surfaceHolder.unlockCanvasAndPost(canvas);
 				}
 			}
-			
 			try {
-			  Thread.sleep(10);
+				Thread.sleep(10);
 			} catch (Exception e) {
 			}
 		}
 
 	}
 
-	
-//	private void saveGameData() {
-//		ArrayList<int[]> arr = new ArrayList<int[]>();
-//
-//		for (int i = 0; i < blocksList.size(); i++) {
-//			arr.add(blocksList.get(i).toIntArray());
-//		}
-//
-//		try {
-//			FileOutputStream fos = new FileOutputStream(FILE_PATH);
-//			oos = new ObjectOutputStream(fos);
-//		//	oos.writeInt(points);
-//		//	oos.writeInt(playerTurns);
-//			oos.writeObject(arr);
-//			oos.close();
-//			fos.close();
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
-	
-	
-//	public void pause() {
-//		saveGameData();
-//        running = false;
-//        while(true){ 
-//            try {
-//                renderThread.join();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//	}
-	
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
@@ -163,19 +100,34 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 
 	@Override
 	public void surfaceCreated(SurfaceHolder surfaceHolder) {
+		double paddleWidth = 0, paddleHeight = 0;
 		this.surfaceHolder = surfaceHolder;
 		this.running = true;
 
 		width = getWidth();
 		height = getHeight();
-		double paddleWidth = getWidth() / 2;
-		double paddleHeight = getHeight() / 25;
+		switch(mode) {
+		case 0: {
+			paddleWidth = getWidth() / 2;
+			paddleHeight = getHeight() / 25;
+			break;
+		}
+		case 1: {
+			paddleWidth = 2 * getWidth() / 5;
+			paddleHeight = getHeight() / 25;
+			break;
+		}
+		case 2: {
+			paddleWidth = 1 * getWidth() / 3;
+			paddleHeight = getHeight() / 25;
+			break;
+		}
+	}
+	
 		double paddleX = (width - paddleWidth) / 2;
 		double paddleY = 7 * height / 8;
 		paddle = new Paddle((int) paddleX, (int) paddleY, (int) paddleWidth,
 				(int) paddleHeight);
-		lifeRemaining = 3;
-		score = 0;
 		// TODO: Thread should not meddle with properties of the view.
 		// Refactor...
 		lastKnownPaddlePosition = paddle.getX();
@@ -239,5 +191,4 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 		}
 	}
 
-	
 }

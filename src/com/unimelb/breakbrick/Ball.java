@@ -2,7 +2,6 @@ package com.unimelb.breakbrick;
 
 import java.util.Date;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -28,8 +27,23 @@ public class Ball {
 		this.bmp = bmp;
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
-		dx = 6;
-		dy = 6;
+		switch(WorldView.mode) {
+			case 0: {
+				dx = 6;
+				dy = 6;
+				break;
+			}
+			case 1: {
+				dx = 8;
+				dy = 8;
+				break;
+			}
+			case 2: {
+				dx = 10;
+				dy = 10;
+			}
+		}
+		
 		setX(screenWidth/2);
 		setY(2 * screenHeight/3);
 	}
@@ -40,6 +54,14 @@ public class Ball {
 
 	private void setY(int i) {
 		this.y = i;
+	}
+	
+	public void setdx(double i) {
+		this.dx = i;		
+	}
+
+	public void setdy(double i) {
+		this.dy = i;
 	}
 	
 	public void onMake(Canvas canvas) {
@@ -60,6 +82,7 @@ public class Ball {
 	}
 
 	private void detectBlockCollision(Canvas canvas) {
+		boolean flag = false;
 		double ballX1 = x + ballRadius;
 		double ballX2 = x - ballRadius;
 		double ballY1 = y - ballRadius;
@@ -71,40 +94,45 @@ public class Ball {
 		for (int i = 0; i < WorldView.blocksList.size(); i++) {
 			Block curr = WorldView.blocksList.get(i);
 			Rect temp = curr.getBounds();
-			
-			if ((ballX1 >= temp.left && ballX2 < temp.left) || (ballX2 <= temp.right && ballX1 > temp.right)) { // Entering from left
+			flag = false;
+			if ((ballX1 >= temp.left && ballX2 < temp.left) || (ballX2 <= temp.right && ballX1 > temp.right)) { // Entering from left/right
 				if(ballY1 > temp.top && ballY2 < temp.bottom) {
 					//hit on left/right side
 					dx = dx * -1;
-					redrawBlock(canvas, curr);
+					flag = true;
 				}
 				else if(ballY2 >= temp.top && ballY1 < temp.top) {
 					//hit near top edge
 					dx = dx * -1;
-					redrawBlock(canvas, curr);
+					flag = true;
 				} 
 				else if(ballY1 <= temp.bottom && ballY2 > temp.bottom) {
 					// hit near bottom edge
 					dx = dx * -1;
-					redrawBlock(canvas, curr);
+					flag = true;
 				}
 			}
+			
 			if (((ballY1 <= temp.bottom && ballY2 > temp.bottom) || (ballY2 >= temp.top && ballY2 < temp.top))) { //entering from bottom
 				if(ballX1 < temp.right && ballX2 > temp.left) {
 					//hit on bottom/top side
 					dy = dy * -1;
-					redrawBlock(canvas, curr);
+					flag = true;
 				}
 				else if (ballX1 >= temp.left && ballX2 < temp.left) {
 					//hit near left edge
 					dy = dy * -1;
-					redrawBlock(canvas, curr);
+					flag = true;
 				}
 				else if (ballX2 <= temp.right && ballX1 > temp.right) {
 					//hit near right edge
 					dy = dy * -1;
-					redrawBlock(canvas, curr);
+					flag = true;
 				}
+			}
+			
+			if (flag) {
+				redrawBlock(canvas, curr);
 			}
 			
 			//if (ballX1 >= temp.left && ballX1 <= temp.right && ballY1 <= temp.bottom) {
@@ -145,6 +173,7 @@ public class Ball {
 			paint.setFakeBoldText(true);
 			paint.setTextSize(50);
 			WorldView.lifeRemaining += 1;
+			System.out.println("Life Remaining after adding is " + WorldView.lifeRemaining + "\n");
 			canvas.drawText("+1", screenWidth / 3, 3 * screenHeight / 5, paint);
 		}
 		WorldView.score += WorldView.lifeRemaining * 10;

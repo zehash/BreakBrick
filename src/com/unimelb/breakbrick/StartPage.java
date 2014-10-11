@@ -18,7 +18,6 @@ public class StartPage extends Activity{
 	
 	final Context context = this;
 	final CharSequence[] items={"Easy","Medium","Hard"};
-	int imputSelection = 0;
 	AlertDialog levelDialog;
 	private EditText result;
 
@@ -51,15 +50,15 @@ public class StartPage extends Activity{
 
 		                        switch (item) {
 		                        case 0:
-		                            imputSelection=0;
+		                            WorldView.mode=0;
 		                            startActivityForResult(myIntent, 0);
 		                            break;
 		                        case 1:
-		                            imputSelection=1;
+		                        	WorldView.mode=1;
 		                            startActivityForResult(myIntent, 0);
 		                            break;
 		                        case 2:
-		                            imputSelection=2;
+		                        	WorldView.mode=2;
 		                            startActivityForResult(myIntent, 0);
 		                            break;
 

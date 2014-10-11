@@ -1,27 +1,50 @@
 package com.unimelb.breakbrick;
 
 
-	import android.app.Activity;
+	import org.lightcouch.CouchDbClientAndroid;
+import org.lightcouch.CouchDbProperties;
+
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 	 
-	public class HighScore extends Activity {
-	
+	public class HighScore extends Activity implements Runnable {
+		JsonArray temp;
+		public void run() {
+			CouchDbProperties properties = new CouchDbProperties()
+			  .setDbName("brickbreak")
+			  .setCreateDbIfNotExist(true)
+			  .setProtocol("http")
+			  .setHost("115.146.92.221")
+			  .setPort(5984)
+			  .setMaxConnections(100)
+			  .setConnectionTimeout(0);
+
+			CouchDbClientAndroid dbClient4 = new CouchDbClientAndroid(properties);
+			JsonObject json = dbClient4.find(JsonObject.class, "HighScores");
+			//JsonElement temp = json.getAsJsonObject().get("Scores");
+			System.out.println(json.getAsJsonObject().get("Scores"));
+		}
 		@Override
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.highscore);
 	 
-	        
+	        Thread t = new Thread(this);
+			t.start();
+			
 	        Button btnClose = (Button) findViewById(R.id.btnClose);
 	 
 	        
     //	    Intent i = getIntent();
 
-    	    TextView txtName1 = (TextView) findViewById(R.id.tV5);
+	        TextView txtName1 = (TextView) findViewById(R.id.tV5);
 	        String name1 = "Egemen";
 	  	    txtName1.setText(name1);
 	  	    
