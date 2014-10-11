@@ -1,9 +1,8 @@
 package com.unimelb.breakbrick;
 
 
-	import org.lightcouch.CouchDbClientAndroid;
+import org.lightcouch.CouchDbClientAndroid;
 import org.lightcouch.CouchDbProperties;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

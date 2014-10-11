@@ -1,5 +1,6 @@
 package com.unimelb.breakbrick;
 
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -56,8 +57,20 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 		CouchDbClientAndroid dbClient3 = new CouchDbClientAndroid(properties);
 		JsonObject json = dbClient3.find(JsonObject.class, "gamelevel");
 		col = json.getAsJsonObject().get("coloumn").getAsInt();
-	}
-	
+
+//		CouchDbClientAndroid dbClient5 = new CouchDbClientAndroid(properties);
+//		json = new JsonObject();
+//		json.addProperty("_id", "highscore");
+//		json.addProperty("Name", "Zen");
+//		json.addProperty("Score", "2000011");
+//		dbClient5.save(json);
+//		json = new JsonObject();
+//		json.addProperty("_id", "highscore");
+//		json.addProperty("Name", "Sree");
+//		json.addProperty("Score", "4000");
+//		dbClient4.save(json);
+
+	}	
 	@Override
 	public void run() {
 		while (running) {

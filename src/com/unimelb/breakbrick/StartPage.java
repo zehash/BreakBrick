@@ -82,7 +82,12 @@ public class StartPage extends Activity{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				
+				WorldView.state = "RUNNING";			
+	
+//				Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
+//	            startActivity(myIntent);
+//	            finish();
+
 			}
         	
         });
@@ -100,12 +105,10 @@ public class StartPage extends Activity{
         
         Button loadLevel = (Button) findViewById(R.id.button4);
         loadLevel.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				
-				
-				
+			public void onClick(View view) {
+				Intent myIntent = new Intent(getApplicationContext(), LoadGameLevel.class);
+                startActivity(myIntent);
+                finish();
 			}
         	
         });
