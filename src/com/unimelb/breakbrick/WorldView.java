@@ -6,8 +6,6 @@ import java.util.Random;
 import org.lightcouch.CouchDbClientAndroid;
 import org.lightcouch.CouchDbProperties;
 
-import com.google.gson.JsonObject;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -18,6 +16,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnTouchListener;
+
+import com.google.gson.JsonObject;
 
 public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 		Runnable, OnTouchListener {
@@ -204,9 +204,6 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 			
 			flag = true;
 			drawBlocks(canvas);
-
-			
 		}
 	}
-
 }

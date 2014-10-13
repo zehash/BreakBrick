@@ -22,24 +22,24 @@ public class StartPage extends Activity{
 	private EditText result;
 	private String level, col;
 	
-//	public boolean isNetworkAvailable() {
-//	    ConnectivityManager connectivityManager 
-//	          = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-//	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-//	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-//	}
-//	
-//	public void createDialog() {
-//		AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-//		alertDialog.setTitle("Alert Dialog");
-//		alertDialog.setMessage("Please check your internet connectivity");
-//		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-//			public void onClick(DialogInterface dialog, int which) {
-//				Toast.makeText(getApplicationContext(), "You clicked on OK", Toast.LENGTH_SHORT).show();
-//			}
-//		});
-//		alertDialog.show();
-//	}
+	/*public boolean isNetworkAvailable() {
+	    ConnectivityManager connectivityManager 
+	          = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+	}
+	
+	public void createDialog() {
+		AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+		alertDialog.setTitle("Alert Dialog");
+		alertDialog.setMessage("Please check your internet connectivity");
+		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				Toast.makeText(getApplicationContext(), "You clicked on OK", Toast.LENGTH_SHORT).show();
+			}
+		});
+		alertDialog.show();
+	}*/
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
