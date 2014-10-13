@@ -1,11 +1,12 @@
 package com.unimelb.breakbrick;
 
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 
 import org.lightcouch.CouchDbClientAndroid;
 import org.lightcouch.CouchDbProperties;
+
+import com.google.gson.JsonObject;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -18,8 +19,6 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
-import com.google.gson.JsonObject;
-
 public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 		Runnable, OnTouchListener {
 	private SurfaceHolder surfaceHolder;
@@ -29,14 +28,16 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 	private int width;
 	private int height;
 	public boolean onScreen = true;
-	public static ArrayList<Block> blocksList;
+	public ArrayList<Block> blocksList;
 	// Touch event position for the paddle
 	private double lastKnownPaddlePosition;
 	private boolean flag = true;
-	int col;
+	public static int col = 1, level = 1;
 	public static int lifeRemaining = 3;
 	public static int score = 0;
 	public static int mode;
+	private Canvas canvas;
+	private Thread t;
 		
 	
 	public WorldView(Context context, AttributeSet attrs) {
@@ -44,37 +45,12 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 		getHolder().addCallback(this);
 		setFocusable(true);
 		setOnTouchListener(this);
-		
-		CouchDbProperties properties = new CouchDbProperties()
-		  .setDbName("brickbreak")
-		  .setCreateDbIfNotExist(true)
-		  .setProtocol("http")
-		  .setHost("115.146.92.221")
-		  .setPort(5984)
-		  .setMaxConnections(100)
-		  .setConnectionTimeout(0);
-
-		CouchDbClientAndroid dbClient3 = new CouchDbClientAndroid(properties);
-		JsonObject json = dbClient3.find(JsonObject.class, "gamelevel");
-		col = json.getAsJsonObject().get("coloumn").getAsInt();
-
-//		CouchDbClientAndroid dbClient5 = new CouchDbClientAndroid(properties);
-//		json = new JsonObject();
-//		json.addProperty("_id", "highscore");
-//		json.addProperty("Name", "Zen");
-//		json.addProperty("Score", "2000011");
-//		dbClient5.save(json);
-//		json = new JsonObject();
-//		json.addProperty("_id", "highscore");
-//		json.addProperty("Name", "Sree");
-//		json.addProperty("Score", "4000");
-//		dbClient4.save(json);
 
 	}	
 	@Override
 	public void run() {
 		while (running) {
-			Canvas canvas = null;
+			canvas = null;
 			try {
 				canvas = surfaceHolder.lockCanvas(null);
 				synchronized (surfaceHolder) {
@@ -146,7 +122,7 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 		lastKnownPaddlePosition = paddle.getX();
 
 		ball = new Ball(this, null, width, height);
-		Thread t = new Thread(this);
+		t = new Thread(this);
 		t.start();
 	}
 
@@ -161,7 +137,7 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
@@ -186,7 +162,7 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 					} else {
 						special = false;
 					}
-					Block block = new Block(canvas, i, j, special);
+					Block block = new Block(WorldView.this, canvas, i, j, special);
 					k = 0;
 				}
 				s++;
@@ -201,6 +177,35 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 		for (int i = 0; i < blocksList.size(); i++) {
 			blocksList.get(i).drawBlock(canvas);
 
+		}
+	}
+	
+	public void removeBlocks(Block curr) {
+		blocksList.remove(curr);
+		System.out.println("Jamie jamie jamie jamie");
+		if((blocksList.size() == 0) && (level == 1)) {
+			level++;
+			// Delay the level change
+			// Add loading window
+			// Increment the level number
+			//When level 2 finishes move to high score dialogbox
+			CouchDbProperties properties = new CouchDbProperties()
+			  .setDbName("brickbreak")
+			  .setCreateDbIfNotExist(true)
+			  .setProtocol("http")
+			  .setHost("115.146.92.221")
+			  .setPort(5984)
+			  .setMaxConnections(100)
+			  .setConnectionTimeout(0);
+
+			CouchDbClientAndroid dbClient4 = new CouchDbClientAndroid(properties);
+			JsonObject json = dbClient4.find(JsonObject.class, "gamelevel");
+			col = json.getAsJsonObject().get("coloumn").getAsInt();
+			
+			flag = true;
+			drawBlocks(canvas);
+
+			
 		}
 	}
 

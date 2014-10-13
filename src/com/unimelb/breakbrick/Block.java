@@ -12,6 +12,7 @@ import android.graphics.drawable.shapes.RectShape;
 public class Block extends ShapeDrawable {
 
 	private Paint paint;
+	private WorldView worldView;
 	private int blockColor;
 	private Canvas canvas;
 	private int blockHeight;
@@ -21,8 +22,9 @@ public class Block extends ShapeDrawable {
 	public boolean isSpecial = false;
 	
 	
-	public Block(Canvas canvas, int i, int j, boolean special) {
+	public Block(WorldView worldView, Canvas canvas, int i, int j, boolean special) {
 		super(new RectShape());
+		this.worldView = worldView;
 		paint = new Paint();
 		blockColor = setBlockColor(i);
 		paint.setColor(blockColor);
@@ -59,7 +61,7 @@ public class Block extends ShapeDrawable {
 		r.set(x_coordinate, y_coordinate, x_coordinate + blockWidth,
 				y_coordinate + blockHeight);
 		this.setBounds(r);	
-		WorldView.blocksList.add(this);
+		worldView.blocksList.add(this);
 		
 		
 	}

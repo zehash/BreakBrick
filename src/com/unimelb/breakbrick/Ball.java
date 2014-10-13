@@ -87,12 +87,13 @@ public class Ball {
 		double ballX2 = x - ballRadius;
 		double ballY1 = y - ballRadius;
 		double ballY2 = y + ballRadius;
-		if (ballY1 > WorldView.blocksList.get(WorldView.blocksList.size() - 1).getBounds().bottom) {
-			return;
-		}
+		if (worldView.blocksList.size() > 0)
+			if (ballY1 > worldView.blocksList.get(worldView.blocksList.size() - 1).getBounds().bottom) {
+				return;
+			}
 		
-		for (int i = 0; i < WorldView.blocksList.size(); i++) {
-			Block curr = WorldView.blocksList.get(i);
+		for (int i = 0; i < worldView.blocksList.size(); i++) {
+			Block curr = worldView.blocksList.get(i);
 			Rect temp = curr.getBounds();
 			flag = false;
 			if ((ballX1 >= temp.left && ballX2 < temp.left) || (ballX2 <= temp.right && ballX1 > temp.right)) { // Entering from left/right
@@ -179,7 +180,7 @@ public class Ball {
 		WorldView.score += WorldView.lifeRemaining * 10;
 		curr.setPaintColor();
     	curr.drawBlock(canvas);
-    	WorldView.blocksList.remove(curr);
+    	worldView.removeBlocks(curr);
 	}
 	
 	private void detectPaddleCollision() {
