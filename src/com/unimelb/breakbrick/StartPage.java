@@ -5,14 +5,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.view.View.OnClickListener;
 
 public class StartPage extends Activity{
 	
@@ -21,39 +21,24 @@ public class StartPage extends Activity{
 	AlertDialog levelDialog;
 	private EditText result;
 
-	public boolean isNetworkAvailable() {
-	    ConnectivityManager connectivityManager 
-	          = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-	}
-	
-	public void createDialog() {
-		AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-		alertDialog.setTitle("Alert Dialog");
-		alertDialog.setMessage("Please check your internet connectivity");
-		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				Toast.makeText(getApplicationContext(), "You clicked on OK", Toast.LENGTH_SHORT).show();
-			}
-		});
-		alertDialog.show();
-	}
-	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		if (!isNetworkAvailable()) {
-			createDialog();
-		}
 		setContentView(R.layout.startpage);
+		
+		
+//		Button newGame = (Button) findViewById(R.id.button1);
+//        newGame.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View view) {
+//                Intent myIntent = new Intent(view.getContext(), MainActivity.class);
+//                startActivityForResult(myIntent, 0);
+//               }
+//        });
+        
         
         Button newGame = (Button) findViewById(R.id.button1);
         newGame.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-            	if (!isNetworkAvailable()) {
-        			createDialog();
-        		} else {
+            	
             	final Intent myIntent = new Intent(view.getContext(), MainActivity.class);
             	
 			    AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -83,7 +68,7 @@ public class StartPage extends Activity{
 		                });
 		        levelDialog = builder.create();
 		        levelDialog.show();
-        		}     
+		      
 		     
 		}
             
@@ -97,7 +82,7 @@ public class StartPage extends Activity{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				WorldView.state = "RUNNING";			
+				
 			}
         	
         });

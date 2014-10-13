@@ -44,15 +44,15 @@ public class Ball {
 			}
 		}
 		
-		setX(Paddle.getX());
-		setY(Paddle.getY() - (Paddle.height / 2) - ballRadius);
+		setX(screenWidth/2);
+		setY(2 * screenHeight/3);
 	}
 
-	private void setX(double i) {
+	private void setX(int i) {
 		this.x = i;		
 	}
 
-	private void setY(double i) {
+	private void setY(int i) {
 		this.y = i;
 	}
 	
@@ -134,7 +134,35 @@ public class Ball {
 			if (flag) {
 				redrawBlock(canvas, curr);
 			}
+			
+			//if (ballX1 >= temp.left && ballX1 <= temp.right && ballY1 <= temp.bottom) {
+			/*if(flag == true) {
+		    	curr.setPaintColor();
+		    	curr.drawBlock(canvas);
+		    	WorldView.blocksList.remove(curr);
+		    	//dy = dy * -1;
+		    	flag = false;
+		    	break;
+		    } else {
+		    	continue;
+		    }*/
 		}
+		/*ListIterator<Block> list = WorldView.blocksList.listIterator(WorldView.blocksList.size() - 1);
+		System.out.println("list.size() is"+ list.)
+		while (list.hasPrevious()) {
+		    Block prev = list.previous();
+		    Rect temp = prev.getBounds();
+		    if (ballX >= temp.left && ballX <= temp.right && ballY <= temp.bottom) {
+		    	prev.setPaintColor();
+		    	prev.drawBlock(canvas);
+		    	WorldView.blocksList.remove(prev);
+		    	dy = 6;
+		    	break;
+		    } else {
+		    	continue;
+		    }
+		}*/
+	
 	}
 	
 	private void redrawBlock(Canvas canvas, Block curr) {
@@ -145,6 +173,7 @@ public class Ball {
 			paint.setFakeBoldText(true);
 			paint.setTextSize(50);
 			WorldView.lifeRemaining += 1;
+			System.out.println("Life Remaining after adding is " + WorldView.lifeRemaining + "\n");
 			canvas.drawText("+1", screenWidth / 3, 3 * screenHeight / 5, paint);
 		}
 		WorldView.score += WorldView.lifeRemaining * 10;
@@ -177,6 +206,7 @@ public class Ball {
 		if (y - ballRadius <= 0) {
 			dy = dy * -1;
 		} else if (y - ballRadius >= screenHeight) {
+			//dy = dy * -1;
 			if(WorldView.lifeRemaining > 0) {
 				 Date start = new Date();
 				    Date end = new Date();
@@ -184,8 +214,8 @@ public class Ball {
 				        end = new Date();
 				    }
 				WorldView.lifeRemaining--;
-				setX(Paddle.getX());
-				setY(Paddle.getY() - (Paddle.height / 2) - ballRadius);
+				setX(screenWidth/2);
+				setY(2 * screenHeight/3);
 			} else {
 				Paint paint = new Paint();
 				paint.setAntiAlias(true);
