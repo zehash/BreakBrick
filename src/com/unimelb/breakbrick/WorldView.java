@@ -6,23 +6,28 @@ import java.util.Random;
 import org.lightcouch.CouchDbClientAndroid;
 import org.lightcouch.CouchDbProperties;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
 public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 		Runnable, OnTouchListener {
 	private SurfaceHolder surfaceHolder;
-	private boolean running = false;
+	public boolean running = false;
 	public Ball ball;
 	public Paddle paddle;
 	private int width;
@@ -204,6 +209,34 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 			
 			flag = true;
 			drawBlocks(canvas);
+		}else if ((blocksList.size() == 0) && (level == 2)){
+			Paint paint = new Paint();
+			paint.setAntiAlias(true);
+			paint.setColor(Color.BLACK);
+			paint.setFakeBoldText(true);
+			paint.setTextSize(80);
+			canvas.drawText("Game Over", width / 3, 3 * height / 5, paint);
+			canvas.drawText("Score : "+ WorldView.score, width / 3, 4 * height / 5, paint);
+			running = false;
 		}
 	}
+	
+	/*public boolean isNetworkAvailable() {
+	    ConnectivityManager connectivityManager 
+	          = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+	}
+	
+	public void createDialog() {
+		AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+		alertDialog.setTitle("Alert Dialog");
+		alertDialog.setMessage("Please check your internet connectivity");
+		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				Toast.makeText(getApplicationContext(), "You clicked on OK", Toast.LENGTH_SHORT).show();
+			}
+		});
+		alertDialog.show();
+	}*/
 }
