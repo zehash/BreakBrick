@@ -30,7 +30,7 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 	public boolean running = false;
 	public Ball ball;
 	public Paddle paddle;
-	private int width;
+	public static int width;
 	private int height;
 	public boolean onScreen = true;
 	public ArrayList<Block> blocksList;
@@ -92,7 +92,7 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 			int height) {
 
 	}
-
+	
 	@Override
 	public void surfaceCreated(SurfaceHolder surfaceHolder) {
 		this.surfaceHolder = surfaceHolder;

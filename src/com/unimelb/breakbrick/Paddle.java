@@ -40,6 +40,11 @@ public class Paddle {
     }
     
     public void move(double position) {
+    	if (position + (width/2) > WorldView.width) {
+    		position = WorldView.width - (width / 2);
+    	} else if (position - (width/2) < 0) {
+    		position = width / 2;
+    	}
         double dx = position - getX();
         move(dx, 0);
     }
