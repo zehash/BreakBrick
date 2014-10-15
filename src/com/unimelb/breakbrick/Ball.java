@@ -10,7 +10,7 @@ import android.graphics.Rect;
 
 public class Ball {
 
-	private static float ballRadius = 40;
+	public static float ballRadius = 40;
 	private WorldView worldView;
 	private Bitmap bmp;
 	
@@ -21,12 +21,14 @@ public class Ball {
 	
 	private int screenWidth;
 	private int screenHeight;
+	private int lastCollided;
 	
 	public Ball(WorldView worldView, Bitmap bmp, int screenWidth, int screenHeight) {
 		this.worldView = worldView;
 		this.bmp = bmp;
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
+		lastCollided = 5;
 		switch(WorldView.mode) {
 			case 0: {
 				dx = 6;
@@ -48,11 +50,11 @@ public class Ball {
 		setY(Paddle.getY() - (Paddle.height / 2) - ballRadius);
 	}
 
-	private void setX(double i) {
+	public void setX(double i) {
 		this.x = i;		
 	}
 
-	private void setY(double i) {
+	public void setY(double i) {
 		this.y = i;
 	}
 	
@@ -133,6 +135,7 @@ public class Ball {
 			}
 			
 			if (flag) {
+				lastCollided = 4;
 				redrawBlock(canvas, curr);
 			}
 		}
@@ -155,28 +158,42 @@ public class Ball {
 	}
 	
 	private void detectPaddleCollision() {
-		double ballX = x + ballRadius;
-		double ballY = y + ballRadius;
-		double paddleXl = Paddle.getX() - (Paddle.width /2);
-		double paddleYl = Paddle.getY() - (Paddle.height / 2);
-		double paddleXr = Paddle.getX() + (Paddle.width / 2);
-		double paddleYr = Paddle.getY() + (Paddle.height / 2);
+		if(lastCollided != 0) {
+			double ballX = x + ballRadius;
+			//double ballX = x;
+			double ballY = y + ballRadius;
+			double paddleXl = Paddle.getX() - (Paddle.width /2);
+			double paddleYl = Paddle.getY() - (Paddle.height / 2);
+			double paddleXr = Paddle.getX() + (Paddle.width / 2);
+			double paddleYr = Paddle.getY() + (Paddle.height / 2);
 		
-		if (ballX > paddleXl && ballX < paddleXr && ballY > paddleYl && ballY < paddleYr ) {
-			dy = dy * -1;
+			if (ballX > paddleXl && ballX < paddleXr && ballY > paddleYl && ballY < paddleYr ) {	
+				dy = dy * -1;
+				lastCollided = 0;
+			}
 		}
 	}
+
 	private void updatePhysics(Canvas canvas) {
 		detectBlockCollision(canvas);
 		detectPaddleCollision();
-		if (x + ballRadius >= screenWidth) {
-			dx = dx * -1;
+		if (x + ballRadius >= screenWidth) {	
+			if(lastCollided != 1) {
+				dx = dx * -1;
+				lastCollided = 1;
+		}
 		} else if (x - ballRadius <= 0) {
-			dx = dx * -1;
+			if(lastCollided != 2) {
+				dx = dx * -1;
+				lastCollided = 2;
+			}
 		}
 		
 		if (y - ballRadius <= 0) {
-			dy = dy * -1;
+			if(lastCollided != 3) {
+				dy = dy * -1;
+				lastCollided = 3;
+			}
 		} else if (y - ballRadius >= screenHeight) {
 			if(WorldView.lifeRemaining > 0) {
 				 Date start = new Date();

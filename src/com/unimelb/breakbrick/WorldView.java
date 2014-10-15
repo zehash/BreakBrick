@@ -36,6 +36,7 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 	public ArrayList<Block> blocksList;
 	// Touch event position for the paddle
 	private double lastKnownPaddlePosition;
+	double paddleWidth = 0, paddleHeight = 0;
 	private boolean flag = true;
 	public static int col = 1, level = 1;
 	public static int lifeRemaining = 3;
@@ -94,7 +95,6 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 
 	@Override
 	public void surfaceCreated(SurfaceHolder surfaceHolder) {
-		double paddleWidth = 0, paddleHeight = 0;
 		this.surfaceHolder = surfaceHolder;
 		this.running = true;
 
@@ -208,7 +208,9 @@ public class WorldView extends SurfaceView implements SurfaceHolder.Callback,
 			col = json.getAsJsonObject().get("coloumn").getAsInt();
 			
 			flag = true;
-			drawBlocks(canvas);
+			ball.setX(Paddle.getX());
+			ball.setY(Paddle.getY() - (Paddle.height / 2) - Ball.ballRadius);
+			drawBlocks(canvas);		
 		}else if ((blocksList.size() == 0) && (level == 2)){
 			Paint paint = new Paint();
 			paint.setAntiAlias(true);
